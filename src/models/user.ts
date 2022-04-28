@@ -1,8 +1,15 @@
 import { model, Schema } from "mongoose";
 
+interface User {
+  username: string;
+  email: string;
+  age: number;
+  city: "Paris" | "Tokyo" | "Los Angeles";
+}
+
 export const UserModel = model(
   "User",
-  new Schema({
+  new Schema<User>({
     username: {
       type: String,
       required: true,
@@ -11,6 +18,7 @@ export const UserModel = model(
     email: {
       type: String,
       required: true,
+      match: [/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/, "Invalid email"],
     },
     age: {
       type: Number,
